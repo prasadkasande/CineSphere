@@ -1,0 +1,78 @@
+.movie-card {
+  display: block;
+  transition: transform 0.2s var(--ease);
+}
+
+.movie-card:hover {
+  transform: scale(1.045);
+}
+
+.movie-poster {
+  aspect-ratio: 2 / 3;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--surface-2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.movie-card:hover .movie-poster {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.movie-poster::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+
+.movie-card:hover .movie-poster::after {
+  opacity: 1;
+}
+
+.movie-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+}
+
+.movie-info {
+  padding: 10px 2px 0;
+}
+
+.movie-info h3 {
+  margin: 0 0 3px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-info p {
+  margin: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Role annotations sit under the "Upcoming" badge so the two never collide. */
+.movie-badge-role {
+  top: auto;
+  bottom: 8px;
+}
+
+.movie-action {
+  width: 100%;
+  margin-top: 9px;
+}

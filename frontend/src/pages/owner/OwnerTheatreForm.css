@@ -1,0 +1,176 @@
+.register-form {
+  padding: clamp(20px, 2.4vw, 30px);
+}
+
+/* Two labelled groups across the card width - the form used to be a 640px
+   column with the rest of the page empty beside it. */
+.register-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+}
+
+.register-group {
+  min-width: 0;
+  padding: 0 26px;
+}
+
+.register-group:first-child {
+  padding-left: 0;
+}
+
+.register-group:last-child {
+  padding-right: 0;
+  border-left: 1px solid var(--border);
+}
+
+.register-legend {
+  margin: 0 0 15px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.register-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.register-grid .field {
+  min-width: 0;
+}
+
+.register-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: -4px;
+}
+
+@media (max-width: 900px) {
+  .register-split {
+    grid-template-columns: 1fr;
+  }
+
+  .register-group {
+    padding: 0;
+  }
+
+  .register-group:last-child {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 560px) {
+  .register-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Rejection notice on the Theatres tab. Deliberately loud: the owner only has
+   a few minutes to read it before the registration is purged.
+
+   Three columns - icon, message, action - so the button sits on its own rather
+   than running on from the end of the sentence. */
+.theatre-rejected {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.theatre-rejected-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--danger);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.theatre-rejected-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.theatre-rejected strong {
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+}
+
+.theatre-rejected p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.theatre-rejected-note {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Solid, so the action reads as the way out rather than more warning text. */
+.theatre-rejected-action {
+  flex-shrink: 0;
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+
+.theatre-rejected-action:hover {
+  background: color-mix(in srgb, var(--danger) 84%, #000);
+  border-color: color-mix(in srgb, var(--danger) 84%, #000);
+}
+
+@media (max-width: 720px) {
+  .theatre-rejected {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  /* flex-basis rather than width:100% - the 36px indent that lines the button
+     up under the message is a margin, and width:100% would add to it and
+     overflow the row. Letting it shrink lets flexbox do that arithmetic. */
+  .theatre-rejected-action {
+    flex: 1 1 100%;
+    margin-left: 36px;
+  }
+}
+
+/* ---------- shared theatre form head ---------- */
+
+.theatre-form-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.theatre-form-title {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.theatre-form-sub {
+  margin: 5px 0 0;
+  font-size: 13px;
+  max-width: 62ch;
+}

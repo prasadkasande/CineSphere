@@ -1,0 +1,232 @@
+.dd-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.16s var(--ease) both;
+}
+
+.dd-modal {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 22px;
+  animation: popIn 0.18s var(--ease) both;
+}
+
+.dd-title {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.dd-desc {
+  margin: 0 0 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.dd-consequences {
+  margin: 0 0 16px;
+  padding: 12px 14px 12px 30px;
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.dd-consequences li::marker {
+  color: var(--danger);
+}
+
+.dd-error {
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.dd-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 7px;
+}
+
+.dd-label strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.dd-input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color 0.15s var(--ease);
+}
+
+.dd-input:focus {
+  outline: none;
+  border-color: var(--danger);
+}
+
+.dd-input::placeholder {
+  color: var(--text-dim);
+}
+
+.dd-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.dd-danger {
+  background: var(--danger);
+}
+
+.dd-danger:hover:not(:disabled) {
+  background: var(--danger);
+  filter: brightness(1.1);
+}
+
+/* ---------- refund callout ---------- */
+
+.dd-refund {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  padding: 13px 15px;
+  margin-bottom: 14px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--warning) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent);
+}
+
+.dd-refund-head {
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.dd-refund-amount {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--warning);
+  font-variant-numeric: tabular-nums;
+}
+
+.dd-refund-sub {
+  grid-column: 1 / -1;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* ---------- optional note ---------- */
+
+.dd-note {
+  margin-bottom: 14px;
+}
+
+.dd-note label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.dd-note input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 13.5px;
+}
+
+.dd-note input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ---------- rejection reason dialog ---------- */
+
+.rd-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.rd-preset {
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  text-align: left;
+  transition: color 0.12s var(--ease), border-color 0.12s var(--ease), background 0.12s var(--ease);
+}
+
+.rd-preset:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.rd-preset.is-on {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.rd-textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.rd-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .dd-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  /* A bottom sheet, not a floating card - it puts the actions near the thumb
+     and stops a long consequence list overflowing a centred box. */
+  .dd-modal {
+    max-width: none;
+    max-height: 92vh;
+    overflow-y: auto;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+  }
+
+  .dd-actions {
+    flex-direction: column-reverse;
+  }
+
+  .dd-actions .btn {
+    width: 100%;
+  }
+}

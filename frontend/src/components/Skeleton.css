@@ -1,0 +1,36 @@
+.skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0%,
+    var(--skeleton-sheen) 50%,
+    var(--skeleton-base) 100%
+  );
+  background-size: 800px 100%;
+  border-radius: var(--radius-xs);
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skel-movie-card {
+  display: block;
+}
+
+.skel-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.skel-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 16px;
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+
+.skel-table-row:last-child {
+  border-bottom: none;
+}

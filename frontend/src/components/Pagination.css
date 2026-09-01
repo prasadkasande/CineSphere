@@ -1,0 +1,83 @@
+/* ============================================================
+   Pagination
+   ============================================================ */
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.pager-count {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.pager-count strong {
+  color: var(--text);
+}
+
+.pager-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pager-step,
+.pager-page {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: all 0.14s var(--ease);
+}
+
+.pager-step {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.pager-step:hover:not(:disabled),
+.pager-page:hover:not(.is-current) {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.pager-step:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pager-page.is-current {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+}
+
+.pager-gap {
+  padding: 0 2px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  .pager {
+    justify-content: center;
+  }
+}

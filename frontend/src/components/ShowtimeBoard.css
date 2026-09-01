@@ -1,0 +1,208 @@
+/* ============================================================
+   Showtime board - a movie's screenings, one day at a time
+   ============================================================ */
+
+.showtime-controls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+/* ---------- day strip ---------- */
+
+.day-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.day-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), color 0.15s var(--ease),
+    background 0.15s var(--ease);
+}
+
+.day-pill:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.day-pill.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.day-pill-name {
+  font-weight: 600;
+}
+
+.day-pill-date {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.day-pill-count {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.day-pill.is-on .day-pill-count {
+  background: color-mix(in srgb, var(--accent-contrast) 22%, transparent);
+}
+
+.showtime-city {
+  min-width: 190px;
+  margin: 0;
+}
+
+.showtime-window {
+  margin: 0 0 18px;
+  font-size: 12.5px;
+}
+
+/* ---------- one theatre ---------- */
+
+.venue-card {
+  margin-bottom: 14px;
+}
+
+.venue-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.venue-name {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.venue-city {
+  font-size: 12.5px;
+}
+
+/*
+ * A grid rather than a wrapping flex row: showtimes are comparable values, so
+ * they should line up in columns instead of forming a ragged edge that shifts
+ * with the length of each screen's name.
+ */
+.slot-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+  gap: 10px;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 11px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease),
+    transform 0.15s var(--ease);
+}
+
+.slot:hover {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-2));
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.slot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.slot-time {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.slot-meta {
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 720px) {
+  .showtime-controls {
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  /*
+   * The strip bleeds to the screen edge so a third day, when the window is
+   * widened, is visibly cut off rather than looking like the last one.
+   */
+  .day-strip {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+
+  .day-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .day-pill {
+    flex: 0 0 auto;
+  }
+
+  .showtime-city {
+    width: 100%;
+  }
+
+  .slot-row {
+    grid-template-columns: repeat(auto-fill, minmax(min(126px, 100%), 1fr));
+    gap: 8px;
+  }
+
+  .slot {
+    padding: 10px 12px;
+  }
+}
+
+@media (pointer: coarse) {
+  .day-pill {
+    padding: 11px 16px;
+  }
+
+  .slot {
+    min-height: 56px;
+    justify-content: center;
+  }
+}

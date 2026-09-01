@@ -1,0 +1,863 @@
+/* ============================================================
+   CineSphere — streaming-media theme
+   Dark is the primary look; light is a well-formed counterpart.
+   ============================================================ */
+
+:root {
+  --canvas: #f5f5f7;
+  --surface: #ffffff;
+  --surface-2: #f0f0f2;
+  --surface-3: #e7e7ea;
+  --border: #e0e0e3;
+  --border-strong: #cfcfd4;
+  --text: #141414;
+  --text-muted: #5f5f66;
+  --text-dim: #8c8c94;
+  --accent: #e50914;
+  --accent-hover: #c1101a;
+  --accent-contrast: #ffffff;
+  --success: #0f9d58;
+  --warning: #b26a00;
+  --danger: #d93025;
+  /* Kept only as heavy as the text legibility needs - the poster art should
+     still read clearly through it. */
+  --scrim: linear-gradient(180deg, rgba(245, 245, 247, 0) 0%, rgba(245, 245, 247, 0.55) 72%, var(--canvas) 100%);
+  --scrim-side: linear-gradient(90deg, rgba(245, 245, 247, 0.88) 0%, rgba(245, 245, 247, 0.45) 32%, rgba(245, 245, 247, 0) 68%);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.18);
+  --skeleton-base: #e7e7ea;
+  --skeleton-sheen: #f4f4f6;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --nav-h: 62px;
+  /* Published as a token so a full-bleed child can cancel it out. */
+  --gutter: clamp(16px, 4vw, 48px);
+
+  font-family: var(--font);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --canvas: #0b0b0b;
+  --surface: #181818;
+  --surface-2: #232323;
+  --surface-3: #2e2e2e;
+  --border: #2a2a2a;
+  --border-strong: #3d3d3d;
+  --text: #ffffff;
+  --text-muted: #a3a3a3;
+  --text-dim: #737373;
+  --accent: #e50914;
+  --accent-hover: #f6121d;
+  --accent-contrast: #ffffff;
+  --success: #46d369;
+  --warning: #e8b339;
+  --danger: #ff5c5c;
+  --scrim: linear-gradient(180deg, rgba(11, 11, 11, 0) 0%, rgba(11, 11, 11, 0.5) 70%, var(--canvas) 100%);
+  --scrim-side: linear-gradient(90deg, rgba(11, 11, 11, 0.82) 0%, rgba(11, 11, 11, 0.38) 32%, rgba(11, 11, 11, 0) 68%);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.75);
+  --skeleton-base: #232323;
+  --skeleton-sheen: #303030;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  margin: 0 0 8px;
+}
+
+h1 { font-size: 30px; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------- layout ---------- */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.app-main {
+  flex: 1;
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Longhands, deliberately: `.page` is used together with `.container`, and a
+   `padding` shorthand here silently zeroes the container's horizontal gutter -
+   which left page content running edge-to-edge at any width where the
+   container fills the viewport. */
+.page {
+  padding-top: 32px;
+  padding-bottom: 80px;
+  animation: fadeInUp 0.4s var(--ease) both;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.section-count {
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- surfaces ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.card-hover {
+  transition: border-color 0.18s var(--ease), transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+
+.card-hover:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  transition: background 0.15s var(--ease), transform 0.12s var(--ease), opacity 0.15s var(--ease);
+}
+
+.btn:hover { background: var(--accent-hover); }
+.btn:active { transform: scale(0.97); }
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: var(--surface-2);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-3);
+  border-color: var(--border-strong);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-ghost:hover { background: var(--surface-2); }
+
+.btn-outline-danger {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--danger);
+}
+
+.btn-outline-danger:hover {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+
+.btn-sm { padding: 6px 13px; font-size: 13px; }
+.btn-lg { padding: 12px 26px; font-size: 15px; }
+.btn-block { width: 100%; }
+
+/* ---------- forms ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+
+.field label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.field input,
+.field select,
+.field textarea {
+  /* Form controls carry an intrinsic min-width; without this they refuse to
+     shrink and overflow any grid/flex column they sit in. */
+  min-width: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.field input::placeholder { color: var(--text-dim); }
+
+/* ---------- feedback ---------- */
+
+.alert {
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  margin-bottom: 16px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  animation: fadeInUp 0.25s var(--ease) both;
+}
+
+.alert-error {
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+  border-left-color: var(--danger);
+  color: var(--danger);
+}
+
+.alert-success {
+  background: color-mix(in srgb, var(--success) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--success) 35%, transparent);
+  border-left-color: var(--success);
+  color: var(--success);
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: var(--radius-xs);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.badge-success { background: color-mix(in srgb, var(--success) 16%, transparent); color: var(--success); }
+.badge-warning { background: color-mix(in srgb, var(--warning) 18%, transparent); color: var(--warning); }
+.badge-danger  { background: color-mix(in srgb, var(--danger) 16%, transparent);  color: var(--danger); }
+.badge-muted   { background: var(--surface-2); color: var(--text-muted); }
+.badge-accent  { background: var(--accent); color: #fff; }
+
+.muted { color: var(--text-muted); }
+.dim { color: var(--text-dim); }
+
+/* ---------- grid ---------- */
+
+.grid { display: grid; gap: 18px; }
+
+.movie-grid {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.stat-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.split-layout {
+  grid-template-columns: 1fr 340px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .split-layout { grid-template-columns: 1fr; }
+}
+
+/* ---------- tables ---------- */
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+th, td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+tbody tr {
+  transition: background 0.12s var(--ease);
+}
+
+tbody tr:hover { background: var(--surface-2); }
+
+th {
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--surface-2);
+}
+
+/* ---------- states ---------- */
+
+.empty-state {
+  text-align: center;
+  padding: 56px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.spinner-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ---------- tabs ---------- */
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+.tab:hover { color: var(--text); }
+
+.tab.active {
+  color: var(--text);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
+}
+
+/* Count pill inside a tab, e.g. "My movies (3)". */
+.tab-count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+
+.tab.active .tab-count {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.tab-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-left: 7px;
+  vertical-align: middle;
+}
+
+/* ---------- animation ---------- */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.96) translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes shimmer {
+  from { background-position: -400px 0; }
+  to   { background-position: 400px 0; }
+}
+
+.animate-in { animation: fadeInUp 0.4s var(--ease) both; }
+.animate-fade { animation: fadeIn 0.3s var(--ease) both; }
+
+/* ---------- on-demand panels ----------
+   A form that only exists once you ask for it should arrive and leave rather
+   than pop. Driven by a declarative animation, not a class the component flips
+   a frame later - see RevealPanel for why depending on a frame callback is
+   fragile. */
+
+@keyframes revealIn {
+  from { opacity: 0; transform: translateY(-10px) scale(0.995); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes revealOut {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateY(-8px) scale(0.995); }
+}
+
+.reveal-panel {
+  animation: revealIn 0.3s var(--ease) both;
+  transform-origin: top center;
+}
+
+.reveal-panel.is-closing {
+  animation: revealOut 0.22s var(--ease) both;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-panel,
+  .reveal-panel.is-closing {
+    animation: none;
+  }
+}
+
+/* Stagger helper for lists/rows. */
+.stagger > * { animation: fadeInUp 0.4s var(--ease) both; }
+.stagger > *:nth-child(1) { animation-delay: 0.02s; }
+.stagger > *:nth-child(2) { animation-delay: 0.06s; }
+.stagger > *:nth-child(3) { animation-delay: 0.1s; }
+.stagger > *:nth-child(4) { animation-delay: 0.14s; }
+.stagger > *:nth-child(5) { animation-delay: 0.18s; }
+.stagger > *:nth-child(6) { animation-delay: 0.22s; }
+.stagger > *:nth-child(n + 7) { animation-delay: 0.26s; }
+
+/* Respect users who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- refunds ---------- */
+
+.refunds-section {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.refund-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.refund-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.refund-amount strong {
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+
+/* ============================================================
+   Responsive — tablet and phone
+   ============================================================ */
+
+/* ---------- tablet ---------- */
+
+@media (max-width: 900px) {
+  /* Four stat cards across a tablet leaves ~180px each, which truncates the
+     hints under the numbers. Two rows of two reads far better. */
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section {
+    margin-bottom: 32px;
+  }
+}
+
+/* ---------- phone ---------- */
+
+@media (max-width: 640px) {
+  :root {
+    --nav-h: 56px;
+  }
+
+  h1 {
+    font-size: clamp(24px, 7vw, 30px);
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .page {
+    padding-top: 20px;
+    padding-bottom: 56px;
+  }
+
+  .section {
+    margin-bottom: 26px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  /* Posters get smaller so two still fit side by side rather than one
+     enormous card per row. */
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(140px, 46%), 1fr));
+    gap: 12px;
+  }
+
+  .stat-grid {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  /* Actions stack full width - a row of three small buttons is unusable with
+     a thumb, and they wrap raggedly. */
+  .row-actions {
+    width: 100%;
+  }
+
+  .row-actions .btn {
+    flex: 1;
+  }
+
+  .empty-state {
+    padding: 36px 16px;
+  }
+}
+
+/* ---------- tables become cards below the tablet breakpoint ---------- */
+
+/*
+ * A five-column table cannot fit a tablet, let alone a phone, and scrolling it
+ * sideways hides half of every row behind a gesture most people never try. So
+ * below 900px each `<tr>` becomes a card instead: the lead cell is its
+ * heading, the middle cells become label/value rows, and the actions sit along
+ * the bottom. The labels come from `data-label` on each `<td>`, which lets the
+ * real `<thead>` be hidden while every value keeps the name of its column.
+ *
+ * `tbody` becomes the grid rather than the cards being full-width blocks -
+ * otherwise a tablet gets one 700px card per row with its label stranded a
+ * screen-width away from its value.
+ */
+@media (max-width: 900px) {
+  .table-scroll {
+    overflow-x: visible;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .table-scroll table,
+  .table-scroll tr,
+  .table-scroll td {
+    display: block;
+    width: auto;
+  }
+
+  .table-scroll tbody {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 12px;
+  }
+
+  /* Visually hidden, not `display: none` - screen readers still announce it. */
+  .table-scroll thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .table-scroll tr {
+    padding: 15px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .table-scroll td {
+    padding: 6px 0;
+    border-bottom: 0;
+    font-size: 13.5px;
+    white-space: normal;
+  }
+
+  /* An action cell the row didn't earn would otherwise leave a stray divider. */
+  .table-scroll td:empty {
+    display: none;
+  }
+
+  /* ---- the row's identity, as the card's heading ---- */
+  .table-scroll .cell-lead {
+    padding: 0 0 11px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---- everything else: label on the left, value on the right ---- */
+  .table-scroll td[data-label] {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .table-scroll td[data-label]::before {
+    content: attr(data-label);
+    flex: 0 0 auto;
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  /* Badges and button groups shouldn't be stretched by the flex row. */
+  .table-scroll td[data-label] > * {
+    flex: 0 1 auto;
+  }
+
+  .table-scroll td[data-label] .status-cell {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  /*
+   * A value with no spaces in it (an email) can't share a line with its label
+   * on a phone without breaking mid-word and orphaning a character. Cells
+   * marked `cell-wide` put the label above instead, so the value gets the
+   * card's full measure.
+   */
+  .table-scroll td.cell-wide {
+    text-align: left;
+  }
+
+  /* ---- actions, along the bottom ---- */
+  .table-scroll .cell-actions {
+    padding: 12px 0 0;
+    margin-top: 7px;
+    border-top: 1px solid var(--border);
+  }
+
+  .table-scroll .cell-actions .row-actions {
+    justify-content: flex-start;
+  }
+
+  .table-scroll .cell-actions .btn {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .table-scroll td.cell-wide {
+    display: block;
+  }
+
+  .table-scroll td.cell-wide::before {
+    display: block;
+    margin-bottom: 2px;
+  }
+}
+
+/* ---------- horizontally scrolling regions ---------- */
+
+/*
+ * Tab strips scroll sideways with no sign that they do, so they bleed to the
+ * screen edge - the cut-off then reads as a scroll rather than a crop.
+ * (Tables do not scroll at all any more; see the card layout above.)
+ */
+@media (max-width: 720px) {
+  .tabs {
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    padding: 11px 14px;
+  }
+}
+
+/* ---------- touch ergonomics ---------- */
+
+/*
+ * Keyed on the input device, not the viewport: a small laptop window still
+ * gets compact controls, while a large tablet gets touch-sized ones.
+ */
+@media (pointer: coarse) {
+  .btn-sm {
+    min-height: 36px;
+  }
+
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    /* iOS zooms the page in on focus for anything under 16px. */
+    font-size: 16px;
+  }
+
+  .tab {
+    padding-block: 14px;
+  }
+}
+
+/* Notched phones in landscape put the gutter under the cutout. */
+@supports (padding: max(0px)) {
+  @media (max-width: 640px) {
+    .container {
+      padding-left: max(var(--gutter), env(safe-area-inset-left));
+      padding-right: max(var(--gutter), env(safe-area-inset-right));
+    }
+  }
+}

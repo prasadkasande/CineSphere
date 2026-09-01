@@ -1,0 +1,176 @@
+.screen-bar {
+  margin: 30px auto 26px;
+  max-width: 520px;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 3px solid var(--accent);
+  border-radius: 50%;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  box-shadow: 0 14px 30px -18px var(--accent);
+}
+
+.seat-map {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.seat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.row-label {
+  width: 18px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.seat-row-seats {
+  display: flex;
+  gap: 6px;
+}
+
+.seat {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s var(--ease), border-color 0.12s var(--ease), transform 0.12s var(--ease);
+}
+
+.seat:not(:disabled):hover {
+  border-color: var(--accent);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+.seat-gold {
+  border-color: color-mix(in srgb, var(--warning) 55%, var(--border-strong));
+}
+
+.seat-recliner {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border-strong));
+}
+
+.seat-selected,
+.seat-selected:not(:disabled):hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.seat-booked,
+.seat-locked {
+  background: var(--surface-3);
+  border-color: transparent;
+  color: var(--text-dim);
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 22px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.legend-available {
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+}
+
+.legend-selected {
+  background: var(--accent);
+}
+
+.legend-taken {
+  background: var(--surface-3);
+}
+
+.checkout-bar {
+  position: sticky;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-lg);
+}
+
+/* ============================================================
+   Touch & small screens
+   ============================================================ */
+
+/*
+ * A 28px seat is fine with a mouse and bad with a thumb - below the ~44px
+ * touch target guidance, on a control where mis-tapping costs money. Rather
+ * than shrink seats to fit a phone, the map scrolls sideways the way cinema
+ * apps do, and the seats grow.
+ */
+@media (pointer: coarse) {
+  .seat {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .seat-row-seats {
+    gap: 7px;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Let a wide auditorium scroll instead of forcing it to fit. No negative
+     gutter bleed here - it would add a few px of phantom scroll even when the
+     map already fits, which reads as a jiggle. */
+  .seat-map-scroll {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .seat-map {
+    min-width: max-content;
+    margin-inline: auto;
+  }
+
+  .screen-bar {
+    margin-top: 20px;
+  }
+
+  .seat-legend {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+}

@@ -1,0 +1,239 @@
+/* ---------- review queue ---------- */
+
+.review-hint {
+  margin: -6px 0 14px;
+  font-size: 13px;
+  max-width: 70ch;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-card {
+  display: flex;
+  gap: 15px;
+  padding: 14px 16px;
+  align-items: flex-start;
+  border-left: 3px solid var(--warning);
+}
+
+.review-thumb {
+  width: 52px;
+  height: 78px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background-size: cover;
+  background-position: center;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.review-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.review-info strong {
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+}
+
+.review-meta {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+}
+
+.review-desc {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.review-by {
+  display: block;
+  margin-top: 7px;
+  font-size: 12px;
+}
+
+.review-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+@media (max-width: 560px) {
+  .review-card {
+    flex-wrap: wrap;
+  }
+
+  .review-actions {
+    width: 100%;
+  }
+}
+
+/* ---------- hero rotation ---------- */
+
+.featured-strip {
+  padding: 16px 18px;
+}
+
+.featured-strip-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.featured-strip-head strong {
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.featured-strip-head .muted {
+  font-size: 12.5px;
+}
+
+.featured-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.featured-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px 5px 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.featured-chip-order {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-chip-thumb {
+  width: 20px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--surface-3);
+}
+
+.featured-chip-title {
+  font-weight: 500;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.featured-chip-remove {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s var(--ease), color 0.12s var(--ease);
+}
+
+.featured-chip-remove:hover:not(:disabled) {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ---------- per-row toggle ---------- */
+
+.feature-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.feature-toggle:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.feature-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.feature-star {
+  font-size: 12px;
+  color: var(--text-dim);
+  transition: color 0.15s var(--ease), transform 0.2s var(--ease);
+}
+
+.feature-toggle.is-on {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.feature-toggle.is-on .feature-star {
+  color: var(--accent);
+  transform: scale(1.15);
+}
+
+tr.is-featured td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.status-cell {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* In card mode the first cell is the card's heading, so the accent marker
+   belongs on the card itself rather than on one line inside it. */
+@media (max-width: 900px) {
+  tr.is-featured td:first-child {
+    box-shadow: none;
+  }
+
+  .table-scroll tr.is-featured {
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+}

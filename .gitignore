@@ -1,0 +1,25 @@
+# Build output
+backend/target/
+frontend/dist/
+frontend/node_modules/
+node_modules/
+
+# Local H2 database - never deploy or commit the dev data
+backend/data/
+
+# Locally uploaded cover images (production uses a Railway volume)
+backend/uploads/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Editors & OS
+.idea/
+.vscode/
+.DS_Store
+*.iml
+
+# Vercel
+.vercel/

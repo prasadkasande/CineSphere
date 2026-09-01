@@ -1,0 +1,186 @@
+.gap-hint {
+  margin: -6px 0 14px;
+  font-size: 13px;
+}
+
+/* Full-width section now, so the cards flow into columns instead of one
+   long single-file list. */
+.gap-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(330px, 100%), 1fr));
+  gap: 10px;
+}
+
+.gap-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+}
+
+.gap-thumb {
+  width: 44px;
+  height: 66px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background-size: cover;
+  background-position: center;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.gap-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+}
+
+.gap-info strong {
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.gap-info p {
+  margin: 0;
+  font-size: 12.5px;
+}
+
+.past-table {
+  opacity: 0.72;
+  transition: opacity 0.2s var(--ease);
+}
+
+.past-table:hover {
+  opacity: 1;
+}
+
+.series-tag {
+  margin-left: 8px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+@media (max-width: 520px) {
+  .gap-card {
+    flex-wrap: wrap;
+  }
+}
+
+/* ============================================================
+   Upcoming shows — cards, not rows
+   ============================================================ */
+
+.show-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(330px, 100%), 1fr));
+  gap: 12px;
+}
+
+.show-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 16px;
+  transition: border-color 0.16s var(--ease);
+}
+
+.show-card:hover {
+  border-color: var(--border-strong);
+}
+
+/* Left block: the "when", or the run's size. Fixed width so titles line up
+   down the column. */
+.show-card-when {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 62px;
+  flex-shrink: 0;
+  padding: 9px 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.show-card.is-series .show-card-when {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+.show-card-day {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.show-card-time {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.show-card-count {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.show-card-count-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.show-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.show-card-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+  min-width: 0;
+}
+
+.show-card-title > span {
+  flex-shrink: 0;
+}
+
+.show-card-where,
+.show-card-range {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.show-card-range {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.show-card .btn {
+  flex-shrink: 0;
+}

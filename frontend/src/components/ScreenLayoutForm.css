@@ -1,0 +1,314 @@
+/* ============================================================
+   ScreenLayoutForm — wide add/edit screen layout editor
+   ============================================================ */
+
+.screen-form {
+  padding: clamp(20px, 2.4vw, 30px);
+}
+
+.screen-form-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.screen-form-title {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.screen-form-sub {
+  margin: 5px 0 0;
+  font-size: 13px;
+  max-width: 66ch;
+}
+
+.screen-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+}
+
+.screen-form-group {
+  min-width: 0;
+  padding: 0 24px;
+}
+
+.screen-form-group:first-child {
+  padding-left: 0;
+}
+
+.screen-form-group:last-child {
+  padding-right: 0;
+}
+
+.screen-form-group + .screen-form-group {
+  border-left: 1px solid var(--border);
+}
+
+.screen-form-legend {
+  display: block;
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ---------- tier legend / running totals ---------- */
+
+.tier-legend {
+  margin-top: 22px;
+}
+
+.tier-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tier-legend-row:last-child {
+  border-bottom: 0;
+}
+
+.tier-legend-row span {
+  flex: 1;
+  color: var(--text-muted);
+}
+
+.tier-legend-row strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.tier-legend-row i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tier-silver i { background: #9aa3ad; }
+.tier-gold i { background: #d9a441; }
+.tier-recliner i { background: var(--accent); }
+
+/* ---------- row editor ---------- */
+
+.row-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row-editor-head,
+.row-editor-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1.3fr) 30px;
+  gap: 8px;
+  align-items: center;
+}
+
+.row-editor-head span {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding-left: 2px;
+}
+
+.row-editor-row input,
+.row-editor-row select {
+  min-width: 0;
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13.5px;
+  transition: border-color 0.15s var(--ease);
+}
+
+.row-editor-row input:focus,
+.row-editor-row select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.row-editor-label {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.row-editor-remove {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.14s var(--ease);
+}
+
+.row-editor-remove:hover:not(:disabled) {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+
+.row-editor-remove:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.row-editor-add {
+  margin-top: 10px;
+}
+
+/* ---------- seat map preview ---------- */
+
+.seat-preview {
+  padding: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* The curved bar reads as the screen you're facing, which orients the rows. */
+.seat-preview-screen {
+  margin: 0 auto 16px;
+  padding: 5px 0;
+  width: 80%;
+  border-radius: 50% / 0 0 100% 100%;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 28%, transparent), transparent);
+  border-top: 2px solid var(--accent);
+  text-align: center;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+}
+
+.seat-preview-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+/* Mirror of the label gutter (22px + 9px gap) - see the note on
+   .screen-map-row: it keeps the seats centred under the screen bar. */
+.seat-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-right: 31px;
+}
+
+.seat-preview-label {
+  width: 22px;
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+.seat-preview-dots {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.seat-preview-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--border-strong);
+}
+
+.seat-preview-dots.tier-silver i { background: #9aa3ad; }
+.seat-preview-dots.tier-gold i { background: #d9a441; }
+.seat-preview-dots.tier-recliner i { background: var(--accent); }
+
+.seat-preview-dots em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-left: 3px;
+}
+
+.capacity-summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 16px 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.capacity-summary strong {
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1080px) {
+  .screen-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+  }
+
+  .screen-form-group {
+    padding: 0;
+  }
+
+  .screen-form-group + .screen-form-group {
+    border-left: 0;
+  }
+
+  .screen-form-group:last-child {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 680px) {
+  .screen-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .screen-form-group + .screen-form-group {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+}

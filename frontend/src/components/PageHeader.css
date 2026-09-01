@@ -1,0 +1,43 @@
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.page-header-main {
+  min-width: 0;
+}
+
+.page-greeting {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+
+.page-greeting-wave {
+  font-size: 13px;
+}
+
+.page-header-title {
+  margin: 0;
+}
+
+.page-header-sub {
+  margin: 6px 0 0;
+  max-width: 62ch;
+}
+
+.page-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}

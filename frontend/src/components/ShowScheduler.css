@@ -1,0 +1,446 @@
+/* ============================================================
+   ShowScheduler — the owner's programming desk
+   ============================================================ */
+
+.sched-title {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.sched-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* ---------- mode switch ---------- */
+
+.sched-modes {
+  display: inline-flex;
+  padding: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.sched-mode {
+  padding: 5px 13px;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.16s var(--ease), color 0.16s var(--ease);
+}
+
+.sched-mode:hover {
+  color: var(--text);
+}
+
+.sched-mode.is-on {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+}
+
+.sched-lead {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---------- wide layout ---------- */
+
+/*
+ * Three columns of roughly equal weight: what is playing, when, and what it
+ * costs. "When" gets the extra room because a recurring pattern lives there.
+ */
+.sched-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 0.9fr);
+  gap: 0;
+  align-items: start;
+}
+
+.sched-group {
+  min-width: 0;
+  padding: 0 22px;
+}
+
+.sched-group:first-child {
+  padding-left: 0;
+}
+
+.sched-group:last-child {
+  padding-right: 0;
+}
+
+/* Hairlines between the columns rather than boxes around them. */
+.sched-group + .sched-group {
+  border-left: 1px solid var(--border);
+}
+
+.sched-legend {
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.sched-hint {
+  margin: 10px 0 0;
+  font-size: 11.5px;
+  text-align: center;
+}
+
+@media (max-width: 1080px) {
+  .sched-body {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 22px;
+  }
+
+  .sched-group {
+    padding: 0;
+  }
+
+  .sched-group + .sched-group {
+    border-left: 0;
+  }
+
+  /* Prices drop to a full-width strip under the other two. */
+  .sched-group:last-child {
+    grid-column: 1 / -1;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 680px) {
+  .sched-body {
+    grid-template-columns: 1fr;
+  }
+
+  .sched-group + .sched-group {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* ---------- layout ---------- */
+
+.sched-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sched-recurring {
+  padding: 14px;
+  margin-bottom: 15px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.sched-recurring > .field:last-of-type,
+.sched-recurring .sched-pair .field {
+  margin-bottom: 13px;
+}
+
+/* ---------- pattern chips ---------- */
+
+.sched-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sched-chip {
+  padding: 6px 11px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s var(--ease);
+}
+
+.sched-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.sched-chip.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+}
+
+/* ---------- weekday toggles ---------- */
+
+/* Fixed-size circles, not a 7-way split - across a wide column an
+   auto-sized grid blew them up to buttons the size of the day cells. */
+.sched-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sched-day {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s var(--ease);
+}
+
+.sched-day:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.sched-day.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* ---------- show times ---------- */
+
+.sched-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 30px;
+  align-items: center;
+}
+
+.sched-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 6px 5px 11px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sched-time button {
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-3);
+  border: 0;
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.14s var(--ease), color 0.14s var(--ease);
+}
+
+.sched-time button:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+.sched-times-empty {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.sched-add-time {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* ---------- summary ---------- */
+
+/* A 1-12 stepper does not need the full column width. */
+.sched-interval {
+  max-width: 130px;
+}
+
+.sched-summary {
+  margin: 0;
+  padding: 9px 11px;
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- ticket prices ---------- */
+
+.price-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.price-grid {
+  display: grid;
+  /* minmax(0, 1fr) - a plain 1fr floors at the input's intrinsic width, which
+     pushed the third (RECLINER) column outside the card. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.price-grid .field {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.price-grid .field label {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.price-grid .field input {
+  padding: 8px 9px;
+  font-size: 13px;
+  width: 100%;
+}
+
+/* ---------- the dry run ---------- */
+
+.plan {
+  margin-top: 16px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+}
+
+.plan-head {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.plan-head strong {
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+.plan-head span {
+  font-size: 12.5px;
+}
+
+.plan-note {
+  margin: 7px 0 11px;
+  font-size: 11.5px;
+}
+
+/*
+ * Across the full card width a single column would be a very long scroll, so
+ * the occurrences flow into as many columns as fit.
+ */
+.plan-list {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr));
+  gap: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.plan-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 11px;
+  font-size: 12.5px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  /* A coloured left edge reads faster across a grid than a badge per row. */
+  border-left: 2px solid transparent;
+}
+
+.plan-row.is-ready {
+  border-left-color: var(--success);
+}
+
+.plan-row.is-conflict {
+  border-left-color: var(--warning);
+}
+
+.plan-row.is-past {
+  border-left-color: var(--border-strong);
+  opacity: 0.6;
+}
+
+.plan-when {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.plan-state {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.plan-row.is-ready .plan-state {
+  color: var(--success);
+}
+
+.plan-row.is-conflict .plan-state {
+  color: var(--warning);
+}
+
+.plan-actions {
+  display: flex;
+  gap: 8px;
+  max-width: 340px;
+}
+
+.plan-actions .btn {
+  flex: 1;
+}
+
+@media (max-width: 520px) {
+  .sched-pair {
+    grid-template-columns: 1fr;
+  }
+}

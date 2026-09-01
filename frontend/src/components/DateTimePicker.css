@@ -1,0 +1,439 @@
+/* ============================================================
+   DateTimePicker — themed replacement for native date/time chrome
+   ============================================================ */
+
+.dtp {
+  position: relative;
+}
+
+/* ---------- trigger ---------- */
+
+.dtp-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.dtp-trigger:hover {
+  border-color: var(--border-strong);
+}
+
+.dtp.is-open .dtp-trigger {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.dtp-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.dtp-trigger.is-invalid {
+  border-color: var(--danger);
+}
+
+.dtp-trigger.is-empty .dtp-value {
+  color: var(--text-dim);
+}
+
+.dtp-icon {
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.dtp-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dtp-caret {
+  font-size: 11px;
+  color: var(--text-dim);
+  transition: transform 0.18s var(--ease);
+}
+
+.dtp.is-open .dtp-caret {
+  transform: rotate(180deg);
+}
+
+/* ---------- panel ---------- */
+
+.dtp-panel {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 300px;
+  max-width: min(300px, calc(100vw - 32px));
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: dtp-pop 0.16s var(--ease);
+}
+
+@keyframes dtp-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dtp-panel {
+    animation: none;
+  }
+}
+
+/* On a narrow screen the popover is pinned to the trigger's box rather than
+   its left edge, so it can never hang off either side. */
+@media (max-width: 560px) {
+  .dtp-panel {
+    left: 50%;
+    right: auto;
+    transform-origin: top center;
+    translate: -50% 0;
+    width: min(300px, calc(100vw - 24px));
+  }
+
+  .dtp-clockface {
+    width: 168px;
+    height: 168px;
+  }
+}
+
+.dtp-divider {
+  height: 1px;
+  margin: 12px -14px;
+  background: var(--border);
+}
+
+/* ---------- calendar ---------- */
+
+.dtp-cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dtp-month {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.dtp-month span {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.dtp-nav {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+.dtp-nav:hover {
+  background: var(--surface-2);
+  border-color: var(--border-strong);
+}
+
+.dtp-weekdays,
+.dtp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.dtp-weekdays {
+  margin-bottom: 4px;
+}
+
+.dtp-weekdays span {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  padding-bottom: 4px;
+}
+
+.dtp-grid {
+  border-radius: var(--radius-sm);
+}
+
+.dtp-grid:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.dtp-day {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background 0.12s var(--ease), color 0.12s var(--ease);
+}
+
+.dtp-day:hover:not(:disabled) {
+  background: var(--surface-3);
+}
+
+.dtp-day.is-outside {
+  color: var(--text-dim);
+  opacity: 0.55;
+}
+
+.dtp-day:disabled {
+  color: var(--text-dim);
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+/* Today reads as an outline; the selection is the only filled cell. */
+.dtp-day.is-today:not(.is-selected) {
+  border-color: var(--border-strong);
+  font-weight: 600;
+}
+
+.dtp-day.is-focused:not(.is-selected) {
+  border-color: var(--accent);
+}
+
+.dtp-day.is-selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* ---------- time: round clock face, not a digital wall clock ---------- */
+
+.dtp-readout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.dtp-readout-part {
+  padding: 3px 6px;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-xs);
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: color 0.14s var(--ease), background 0.14s var(--ease);
+}
+
+.dtp-readout-part:hover {
+  color: var(--text);
+}
+
+.dtp-readout-part.is-on {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.dtp-readout-colon {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.dtp-meridiem {
+  display: flex;
+  gap: 3px;
+  margin-left: 8px;
+}
+
+.dtp-mer {
+  padding: 4px 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.14s var(--ease);
+}
+
+.dtp-mer:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.dtp-mer.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* The dial itself. Numbers and the hand are positioned in JS via trig - each
+   spoke sits at (radius*sin, -radius*cos) from the centre so index 0 lands at
+   12 o'clock and the rest follow clockwise, same as a real clock face. */
+.dtp-clockface {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  margin: 6px auto 2px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.dtp-clock-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  z-index: 2;
+}
+
+.dtp-clock-hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+  border-radius: 1px;
+  transform-origin: 50% 100%;
+  transition: transform 0.18s var(--ease);
+  z-index: 1;
+}
+
+.dtp-clock-num {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.12s var(--ease), color 0.12s var(--ease);
+}
+
+.dtp-clock-num:hover {
+  background: var(--surface-3);
+}
+
+.dtp-clock-num.is-selected {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+}
+
+.dtp-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 11px;
+}
+
+.dtp-slot {
+  padding: 5px 9px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: all 0.14s var(--ease);
+}
+
+.dtp-slot:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.dtp-slot.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* ---------- footer ---------- */
+
+.dtp-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 12px -14px -14px;
+  padding: 11px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.dtp-foot-summary {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--text-muted);
+}

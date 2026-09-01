@@ -1,0 +1,226 @@
+/* ============================================================
+   AuthLayout — wide two-panel shell for signed-out pages
+   ============================================================ */
+
+.auth-split {
+  display: grid;
+  /* The pitch takes slightly more room than the form; the form keeps a
+     readable measure via .auth-card's own max-width rather than filling
+     its whole column. */
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  min-height: 62vh;
+  padding: 8px 0 24px;
+  position: relative;
+}
+
+/* ---------- left: the pitch ---------- */
+
+.auth-pitch {
+  position: relative;
+  min-width: 0;
+}
+
+/*
+ * A soft accent bloom so the panel reads as deliberate, not as leftover space.
+ * It hangs off .auth-split rather than .auth-pitch because the pitch becomes
+ * `display: contents` on narrow screens (see the stacking rules at the bottom)
+ * and such a box renders no pseudo-elements. Absolute positioning keeps it out
+ * of grid flow - otherwise a grid container's ::before claims a real cell.
+ */
+.auth-split::before {
+  content: '';
+  position: absolute;
+  top: 4%;
+  left: -6%;
+  width: 34%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%);
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 26px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.auth-brand-mark {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.auth-title {
+  margin: 0 0 14px;
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.auth-subtitle {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.auth-points {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 14.5px;
+  color: var(--text);
+}
+
+.auth-points svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  padding: 2px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+}
+
+/* ---------- right: the form ---------- */
+
+.auth-panel {
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  padding: clamp(22px, 2.6vw, 34px);
+}
+
+.auth-card-title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.auth-card-sub {
+  margin: 0 0 20px;
+  font-size: 13.5px;
+}
+
+.auth-card-title:last-of-type {
+  margin-bottom: 20px;
+}
+
+/* Two fields per row, so a longer form uses the panel's width instead of
+   becoming a tall narrow strip. */
+.auth-fields-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.auth-fields-2 .field {
+  min-width: 0;
+}
+
+.auth-footer {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* ---------- stacks on narrow screens ---------- */
+
+/*
+ * Stacked, the two panels put the entire pitch above the form - on a phone
+ * that pushed the login fields most of a screen down, so the page looked like
+ * it had no form on it. The pitch is therefore dissolved into the same flex
+ * column (`display: contents`) and its parts reordered around the form: the
+ * brand and greeting stay on top for context, the form follows immediately,
+ * and the supporting copy moves below the fold where it costs nothing.
+ */
+@media (max-width: 900px) {
+  .auth-split {
+    display: flex;
+    flex-direction: column;
+    /* The desktop `align-items: center` is a vertical rule in a grid but a
+       horizontal one in a column flex box - left unset it centres the heading
+       and shrinks the form card away from the screen edges. */
+    align-items: stretch;
+    gap: 0;
+    min-height: 0;
+    padding-top: 0;
+  }
+
+  .auth-pitch {
+    display: contents;
+  }
+
+  .auth-brand {
+    order: 1;
+    align-self: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .auth-title {
+    order: 2;
+    margin-bottom: 20px;
+  }
+
+  .auth-panel {
+    order: 3;
+    justify-content: flex-start;
+  }
+
+  .auth-subtitle {
+    order: 4;
+    max-width: none;
+    margin-top: 34px;
+  }
+
+  .auth-points {
+    order: 5;
+    margin-top: 22px;
+  }
+
+  .auth-aside {
+    order: 6;
+    margin-top: 24px;
+  }
+
+  .auth-card {
+    max-width: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .auth-fields-2 {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,72 @@
+.next-show {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  margin-top: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.next-show-greeting {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.next-show-greeting strong {
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.next-show-greeting span {
+  font-size: 13px;
+}
+
+/* The ticket itself gets the accent edge - it's the actionable half. */
+.next-show-ticket {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1px;
+  padding: 10px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.next-show-ticket:hover {
+  background: var(--surface-3);
+  border-color: var(--border-strong);
+  border-left-color: var(--accent);
+}
+
+.next-show-when {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.next-show-movie {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.next-show-where {
+  font-size: 12px;
+}
+
+@media (max-width: 620px) {
+  .next-show-ticket {
+    width: 100%;
+  }
+}
