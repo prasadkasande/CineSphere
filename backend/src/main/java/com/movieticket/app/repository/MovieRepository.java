@@ -44,9 +44,14 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             "        and s.status = com.movieticket.app.entity.ShowStatus.SCHEDULED " +
             "        and s.showDateTime >= :now) and " +
             "(:status is null or m.status = :status) and " +
-            "(:search is null or lower(m.title) like lower(concat('%', :search, '%'))) and " +
-            "(:genre is null or lower(m.genre) = lower(:genre)) and " +
-            "(:language is null or lower(m.language) = lower(:language))")
+            "(cast(:search as String) is null or lower(m.title) like lower(concat('%', cast(:search as String), '%'))) and " +
+            "(cast(:genre as String) is null or lower(m.genre) = lower(cast(:genre as String))) and " +
+            "(cast(:language as String) is null or lower(m.language) = lower(cast(:language as String)))")
+    /*
+     * The nullable String parameters are cast explicitly: an untyped null
+     * binds as `bytea` on Postgres, and `lower(bytea)` is not a function.
+     * H2 accepts it, so this only ever fails against the real database.
+     */
     List<Movie> search(@Param("status") MovieStatus status,
                        @Param("search") String search,
                        @Param("genre") String genre,

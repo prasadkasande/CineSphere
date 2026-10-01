@@ -33,7 +33,7 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
      * use for the other 290, and shipping them all made the page unreadable.
      */
     @Query("select s from Show s where s.movie.id = :movieId " +
-            "and (:city is null or lower(s.screen.theatre.city) = lower(:city)) " +
+            "and (cast(:city as String) is null or lower(s.screen.theatre.city) = lower(cast(:city as String))) " +
             "and s.status = com.movieticket.app.entity.ShowStatus.SCHEDULED " +
             "and s.showDateTime >= :from and s.showDateTime < :to " +
             "order by s.showDateTime asc")
@@ -47,7 +47,7 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
      * the film next plays, rather than leaving them on a bare "no shows".
      */
     @Query("select min(s.showDateTime) from Show s where s.movie.id = :movieId " +
-            "and (:city is null or lower(s.screen.theatre.city) = lower(:city)) " +
+            "and (cast(:city as String) is null or lower(s.screen.theatre.city) = lower(cast(:city as String))) " +
             "and s.status = com.movieticket.app.entity.ShowStatus.SCHEDULED " +
             "and s.showDateTime >= :from")
     LocalDateTime findNextShowTime(@Param("movieId") Long movieId,
