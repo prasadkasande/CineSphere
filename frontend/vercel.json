@@ -4,8 +4,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://api.cinesphere.prasadkasande.uk/api/:path*" },
-    { "source": "/uploads/:path*", "destination": "https://api.cinesphere.prasadkasande.uk/uploads/:path*" },
+    { "source": "/api/:path*", "destination": "https://cinesphere-api.prasadkasande.uk/api/:path*" },
+    { "source": "/uploads/:path*", "destination": "https://cinesphere-api.prasadkasande.uk/uploads/:path*" },
     { "source": "/:path*", "destination": "/index.html" }
   ]
 }
