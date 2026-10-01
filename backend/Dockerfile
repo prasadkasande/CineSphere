@@ -28,9 +28,12 @@ COPY --from=build /build/target/*.jar app.jar
 RUN mkdir -p /app/uploads && chown -R app:app /app
 USER app
 
-# Tuned for a 512 MB free-tier container: cap the heap well below the limit so
-# the JVM's own off-heap use doesn't trip the OOM killer, and keep the runtime
-# lean since this instance cold-starts on every wake.
-ENV JAVA_OPTS="-XX:MaxRAMPercentage=65 -XX:+UseSerialGC -Xss512k -XX:TieredStopAtLevel=1"
+# Sized for the container limit set in docker-compose.prod.yml, not for the
+# host: MaxRAMPercentage reads the cgroup limit, so the heap tracks whatever
+# mem_limit the app is given. SerialGC because the box has 2 cores and the
+# heap is small - a concurrent collector would spend more on coordination
+# than it saves. The JIT is deliberately left at full tiering: this process
+# is long-lived, so paying C2 compilation once is worth it.
+ENV JAVA_OPTS="-XX:MaxRAMPercentage=70 -XX:+UseSerialGC -Xss512k"
 EXPOSE 8081
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
